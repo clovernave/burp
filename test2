@@ -1,5 +1,12 @@
 import os
+import base64
 
+def encode_file(file_path, output_path):
+    with open(file_path, 'rb') as file:
+        encoded_data = base64.b64encode(file.read())
+
+    with open(output_path, 'wb') as output_file:
+        output_file.write(encoded_data)
 def split_file(input_file, output_directory, chunk_size):
     with open(input_file, 'rb') as f:
         data = f.read()
@@ -19,12 +26,13 @@ def split_file(input_file, output_directory, chunk_size):
 
         chunk_data = data[start:end]
 
-        output_file = os.path.join(output_directory, f'part{i + 1}.encrypted')
+        output_file = os.path.join(output_directory, f'part_{i + 1}')
 
         with open(output_file, 'wb') as f:
             f.write(chunk_data)
 
         print(f'Split part {i + 1}: {output_file}')
+        encode_file(f'part_{i + 1}', f'part_{i + 1}_enc')
 
     print('Splitting complete.')
 
