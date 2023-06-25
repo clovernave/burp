@@ -1,0 +1,36 @@
+import os
+
+def split_file(input_file, output_directory, chunk_size):
+    with open(input_file, 'rb') as f:
+        data = f.read()
+
+    total_size = len(data)
+    num_chunks = total_size // chunk_size
+    remainder = total_size % chunk_size
+
+    if remainder != 0:
+        num_chunks += 1
+
+    os.makedirs(output_directory, exist_ok=True)  # Create output directory if it doesn't exist
+
+    for i in range(num_chunks):
+        start = i * chunk_size
+        end = (i + 1) * chunk_size if i < num_chunks - 1 else total_size
+
+        chunk_data = data[start:end]
+
+        output_file = os.path.join(output_directory, f'part{i + 1}.encrypted')
+
+        with open(output_file, 'wb') as f:
+            f.write(chunk_data)
+
+        print(f'Split part {i + 1}: {output_file}')
+
+    print('Splitting complete.')
+
+# Example usage
+input_file = 'encrypted_file.dat'  # Path to the encrypted file
+output_directory = 'split_files'  # Output directory to store the split parts
+chunk_size = 50 * 1024 * 1024  # Size of each split part in bytes (e.g., 50MB)
+
+split_file(input_file, output_directory, chunk_size)
