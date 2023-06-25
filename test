@@ -1,0 +1,28 @@
+import win32com.client
+
+def read_outlook_emails():
+    outlook_app = win32com.client.Dispatch("Outlook.Application")
+    namespace = outlook_app.GetNamespace("MAPI")
+    inbox_folder = namespace.GetDefaultFolder(6)  # 6 corresponds to the Inbox folder
+
+    messages = inbox_folder.Items
+    messages.Sort("[ReceivedTime]", True)  # Sort emails by ReceivedTime in descending order
+
+    for message in messages:
+        #print("Subject:", message.Subject)
+        #print("Sender:", message.SenderName)
+        #print("Received Time:", message.ReceivedTime)
+        #print("Body:", message.Body)
+
+        # Check if email has attachments
+        if message.Attachments.Count > 0:
+            print("Attachments:")
+            print("Subject:", message.Subject)
+            print("Sender:", message.SenderName)
+            for attachment in message.Attachments:
+                print(attachment.FileName)
+
+        print("----------------------------------------")
+
+if __name__ == "__main__":
+    read_outlook_emails()
