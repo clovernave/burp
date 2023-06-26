@@ -1,0 +1,16 @@
+import win32com.client as win32
+
+outlook = win32.Dispatch('Outlook.Application')
+mail = outlook.CreateItem(0)
+recipient = 'test@gmail.com'
+subject = 'abc_part1'
+attachment_path = 'C:/path/to/attachment/file.txt'
+
+mail.Subject = subject
+mail.Body = 'Please find the attachment.'
+mail.To = recipient
+
+attachment = mail.Attachments.Add(attachment_path)
+attachment.PropertyAccessor.SetProperty("http://schemas.microsoft.com/mapi/proptag/0x3712001F", "MyAttachment")
+
+mail.Send()
