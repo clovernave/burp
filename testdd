@@ -1,0 +1,17 @@
+#https://www.reddit.com/r/PowerShell/comments/ft1gab/moving_cursor_to_specific_position_on_screen/
+#https://flamingkeys.com/moving-the-mouse-cursor-with-windows-powershell/
+Add-Type -AssemblyName System.Windows.Forms
+$WShell = New-Object -com "Wscript.Shell"
+$screen = [System.Windows.Forms.SystemInformation]::VirtualScreen
+
+while ($true){
+    #$add_width = Get-Random -Minimum 400 -Maximum 800
+    #$add_height = Get-Random -Minimum 1100 -Maximum 2200
+    $add_width = Get-Random -Minimum 122 -Maximum 1022
+    $add_height = Get-Random -Minimum 122 -Maximum 555
+    $default_width = $screen.width 
+    $default_height = $screen.height 
+    [Windows.Forms.Cursor]::Position = "$add_width, $add_height"
+    $WShell.sendkeys(“{BackSpace}”)
+    Start-Sleep -Seconds 10
+}
